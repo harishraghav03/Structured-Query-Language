@@ -2,11 +2,11 @@ DROP DATABASE IF EXISTS `sql_invoicing`;
 CREATE DATABASE `sql_invoicing`; 
 USE `sql_invoicing`;
 
-SET NAMES utf8 ;
+SET NAMES utf8mb4 ;
 SET character_set_client = utf8mb4 ;
 
 CREATE TABLE `payment_methods` (
-  `payment_method_id` tinyint(4) NOT NULL AUTO_INCREMENT,
+  `payment_method_id` TINYINT NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`payment_method_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -16,7 +16,7 @@ INSERT INTO `payment_methods` VALUES (3,'PayPal');
 INSERT INTO `payment_methods` VALUES (4,'Wire Transfer');
 
 CREATE TABLE `clients` (
-  `client_id` int(11) NOT NULL,
+  `client_id` INT NOT NULL,
   `name` varchar(50) NOT NULL,
   `address` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
@@ -31,9 +31,9 @@ INSERT INTO `clients` VALUES (4,'Kwideo','81674 Westerfield Circle','Waco','TX',
 INSERT INTO `clients` VALUES (5,'Topiclounge','0863 Farmco Road','Portland','OR','971-888-9129');
 
 CREATE TABLE `invoices` (
-  `invoice_id` int(11) NOT NULL,
+  `invoice_id` INT NOT NULL,
   `number` varchar(50) NOT NULL,
-  `client_id` int(11) NOT NULL,
+  `client_id` INT NOT NULL,
   `invoice_total` decimal(9,2) NOT NULL,
   `payment_total` decimal(9,2) NOT NULL DEFAULT '0.00',
   `invoice_date` date NOT NULL,
@@ -62,12 +62,12 @@ INSERT INTO `invoices` VALUES (18,'52-269-9803',5,180.17,42.77,'2019-05-23','201
 INSERT INTO `invoices` VALUES (19,'83-559-4105',1,134.47,0.00,'2019-11-23','2019-12-13',NULL);
 
 CREATE TABLE `payments` (
-  `payment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `client_id` int(11) NOT NULL,
-  `invoice_id` int(11) NOT NULL,
+  `payment_id` INT NOT NULL AUTO_INCREMENT,
+  `client_id` INT NOT NULL,
+  `invoice_id` INT NOT NULL,
   `date` date NOT NULL,
   `amount` decimal(9,2) NOT NULL,
-  `payment_method` tinyint(4) NOT NULL,
+  `payment_method` TINYINT NOT NULL,
   PRIMARY KEY (`payment_id`),
   KEY `fk_client_id_idx` (`client_id`),
   KEY `fk_invoice_id_idx` (`invoice_id`),
@@ -91,9 +91,9 @@ CREATE DATABASE `sql_store`;
 USE `sql_store`;
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `quantity_in_stock` int(11) NOT NULL,
+  `quantity_in_stock` INT NOT NULL,
   `unit_price` decimal(4,2) NOT NULL,
   PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -110,7 +110,7 @@ INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09);
 
 
 CREATE TABLE `shippers` (
-  `shipper_id` smallint(6) NOT NULL AUTO_INCREMENT,
+  `shipper_id` SMALLINT NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`shipper_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -122,7 +122,7 @@ INSERT INTO `shippers` VALUES (5,'Waters, Mayert and Prohaska');
 
 
 CREATE TABLE `customers` (
-  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `birth_date` date DEFAULT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `customers` (
   `address` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `state` char(2) NOT NULL,
-  `points` int(11) NOT NULL DEFAULT '0',
+  `points` INT NOT NULL DEFAULT '0',
   PRIMARY KEY (`customer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 INSERT INTO `customers` VALUES (1,'Babara','MacCaffrey','1986-03-28','781-932-9754','0 Sage Terrace','Waltham','MA',2273);
@@ -146,7 +146,7 @@ INSERT INTO `customers` VALUES (10,'Levy','Mynett','1969-10-13','404-246-3370','
 
 
 CREATE TABLE `order_statuses` (
-  `order_status_id` tinyint(4) NOT NULL,
+  `order_status_id` TINYINT NOT NULL,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`order_status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -156,13 +156,13 @@ INSERT INTO `order_statuses` VALUES (3,'Delivered');
 
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL,
+  `order_id` INT NOT NULL AUTO_INCREMENT,
+  `customer_id` INT NOT NULL,
   `order_date` date NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `status` TINYINT NOT NULL DEFAULT '1',
   `comments` varchar(2000) DEFAULT NULL,
   `shipped_date` date DEFAULT NULL,
-  `shipper_id` smallint(6) DEFAULT NULL,
+  `shipper_id` SMALLINT DEFAULT NULL,
   PRIMARY KEY (`order_id`),
   KEY `fk_orders_customers_idx` (`customer_id`),
   KEY `fk_orders_shippers_idx` (`shipper_id`),
@@ -184,9 +184,9 @@ INSERT INTO `orders` VALUES (10,6,'2018-04-22',2,NULL,'2018-04-23',2);
 
 
 CREATE TABLE `order_items` (
-  `order_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `order_id` INT NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL,
+  `quantity` INT NOT NULL,
   `unit_price` decimal(4,2) NOT NULL,
   PRIMARY KEY (`order_id`,`product_id`),
   KEY `fk_order_items_products_idx` (`product_id`),
@@ -229,7 +229,7 @@ USE `sql_hr`;
 
 
 CREATE TABLE `offices` (
-  `office_id` int(11) NOT NULL,
+  `office_id` INT NOT NULL,
   `address` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `state` varchar(50) NOT NULL,
@@ -249,13 +249,13 @@ INSERT INTO `offices` VALUES (10,'4 Bluestem Parkway','Savannah','GA');
 
 
 CREATE TABLE `employees` (
-  `employee_id` int(11) NOT NULL,
+  `employee_id` INT NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `job_title` varchar(50) NOT NULL,
-  `salary` int(11) NOT NULL,
-  `reports_to` int(11) DEFAULT NULL,
-  `office_id` int(11) NOT NULL,
+  `salary` INT NOT NULL,
+  `reports_to` INT DEFAULT NULL,
+  `office_id` INT NOT NULL,
   PRIMARY KEY (`employee_id`),
   KEY `fk_employees_offices_idx` (`office_id`),
   KEY `fk_employees_employees_idx` (`reports_to`),
@@ -290,10 +290,10 @@ USE `sql_inventory`;
 
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` INT NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `quantity_in_stock` int(11) NOT NULL,
-  `unit_price` decimal(4,2) NOT NULL,
+  `quantity_in_stock` INT NOT NULL,
+  `unit_price` DECIMAL(4,2) NOT NULL,
   PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 INSERT INTO `products` VALUES (1,'Foam Dinner Plate',70,1.21);
@@ -306,6 +306,3 @@ INSERT INTO `products` VALUES (7,'Sweet Pea Sprouts',98,3.29);
 INSERT INTO `products` VALUES (8,'Island Oasis - Raspberry',26,0.74);
 INSERT INTO `products` VALUES (9,'Longan',67,2.26);
 INSERT INTO `products` VALUES (10,'Broom - Push',6,1.09);
-
-
-
