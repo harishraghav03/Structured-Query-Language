@@ -1,0 +1,5 @@
+Database ia a collection of data stored in a format that can easily be accessed. In order to manage our databases, we use a software called DataBase Management System. We connect to DBMS and
+give instructions to the DBMS to query or modify data. The DBMS will execute the instructions and send the result to us.
+Relational and NoSQL
+
+RDBMS - MySQL
